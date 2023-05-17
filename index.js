@@ -3,14 +3,23 @@ const app = express();
 app.use(express.json());
 
 // Create an empty array to store restaurant data
-const restaurants = [{ name: "Uchi", style: "Asian", price: "$$$$" }];
+let restaurants = [
+  { name: "Uchi", style: "Asian", price: "$$$$" },
+  { name: "Smoochi", style: "Asian", price: "$$$$" },
+];
 
 // Routes go here
 
-app.delete("/delete_restaurant/:id", (req, res) => {
-  const { id } = req.params;
-  console.log(id);
-  res.send("this is the id");
+app.post("/create_restaurant", (req, res) => {
+  restaurants.push({ name: "Taco Bell", stle: "fast food", price: "$$" });
+});
+
+app.post("/delete_restaurant", (req, res) => {
+  const filteredRestaurants = restaurants.filter(
+    (resta) => resta.name !== req.body.name
+  );
+  restaurants = filteredRestaurants;
+  res.send(restaurants);
 });
 // Start the server
 app.listen(3003, () => {
